@@ -16,9 +16,26 @@ public class PlayerController : MonoBehaviour
 	private float speed = 10; // Make movement faster 
 	private float tilt = 3; // Make ship tilt into X movement
 
+	public float fireRate;
+	public GameObject shot;
+	public Transform shotSpawn;
+	private float nextFire;
+
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
+	}
+
+	void Update()
+	{
+		// Create the bolt for the spacecraft cannon
+		if (Input.GetButton("Fire1") && Time.time > nextFire)
+		{
+			nextFire = Time.time + fireRate;
+			//GameObject clone =
+			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);// as GameObject;
+		}
 	}
 
 	void FixedUpdate()
