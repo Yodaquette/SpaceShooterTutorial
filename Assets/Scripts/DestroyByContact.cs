@@ -7,6 +7,28 @@ public class DestroyByContact : MonoBehaviour
 	public GameObject explosion;
 	public GameObject playerExplosion;
 
+	// Reference to GameController
+	private GameController gc;
+
+	// The score value for an asteroid
+	public int scoreValue;
+
+	void Start()
+	{
+		GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+
+		if(gameControllerObject != null)
+		{
+			gc = gameControllerObject.GetComponent<GameController>();
+		}
+
+		// Log error, if game controller instance is not found
+		if(gc == null)
+		{
+			Debug.Log("Cannot find 'GameController' script.");
+		}
+	}
+
 	void OnTriggerEnter(Collider other)
 	{
 		// Debug was used to determine what game object was destroying the asteroid
@@ -26,6 +48,9 @@ public class DestroyByContact : MonoBehaviour
 		{
 			Instantiate(playerExplosion,other.transform.position,other.transform.rotation);
 		}
+
+		// Increase score
+		gc.addScore(scoreValue);
 
 		// Destroy the asteroid game object
 		Destroy(other.gameObject);
