@@ -13,13 +13,38 @@ public class GameController : MonoBehaviour
 	public GUIText scoreText;
 	private int score;
 
+	// Text for restart and game over
+	public GUIText restartText;
+	public GUIText gameOverText;
+
+	// Game over and restart flags
+	private bool gameOver,restart;
+
 	void Start()
 	{
+		// Initial values for gameover and restart
+		gameOver = false;
+		restart = false;
+
+		// Initial values for gameover and restart text
+		restartText.text = "";
+		gameOverText.text = "";
+
 		score = 0;
 		updateScore();
 
-
 		StartCoroutine(spawnWaves());
+	}
+
+	void Update()
+	{
+		if(restart)
+		{
+			if(Input.GetKeyDown (KeyCode.R))
+			{
+				Application.LoadLevel(Application.loadedLevel);
+			}
+		}
 	}
 
 	// Generate hazards for the player
@@ -41,6 +66,15 @@ public class GameController : MonoBehaviour
 			}
 
 			yield return new WaitForSeconds(waveWait);
+
+			if(gameOver)
+			{
+				restartText.text = "Press 'R' to restart.";
+				restart = true;
+
+				// End the play loop
+				break;
+			}
 		}
 	}
 
@@ -54,5 +88,12 @@ public class GameController : MonoBehaviour
 	void updateScore()
 	{
 		scoreText.text = "Score: " + score.ToString();
+	}
+
+	public void GameOver()
+	{
+		// Display game over text and set game over flag to 'true'
+		gameOverText.text = "Game Over";
+		gameOver = true;
 	}
 }

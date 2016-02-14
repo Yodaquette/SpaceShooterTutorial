@@ -19,7 +19,7 @@ public class DestroyByContact : MonoBehaviour
 
 		if(gameControllerObject != null)
 		{
-			gc = gameControllerObject.GetComponent<GameController>();
+ 			gc = gameControllerObject.GetComponent<GameController>();
 		}
 
 		// Log error, if game controller instance is not found
@@ -44,9 +44,12 @@ public class DestroyByContact : MonoBehaviour
 		Instantiate(explosion,transform.position,transform.rotation);
 
 		// Show player explosion if the player is detected
+		// End game when player is destroyed
 		if(other.tag == "Player")
 		{
 			Instantiate(playerExplosion,other.transform.position,other.transform.rotation);
+
+			gc.GameOver();
 		}
 
 		// Increase score
