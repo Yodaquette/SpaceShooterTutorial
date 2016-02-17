@@ -35,17 +35,20 @@ public class DestroyByContact : MonoBehaviour
 		//Debug.Log(other.name);
 
 		// Return control to the caller
-		if(other.tag == "Boundary")
+		if(other.CompareTag("Boundary") || other.CompareTag("Enemy"))
 		{
 			return;
 		}
 
-		// Show explosion at the position and with the rotation of the asteroid
-		Instantiate(explosion,transform.position,transform.rotation);
+		if(explosion != null)
+		{
+			// Show explosion at the position and with the rotation of the asteroid
+			Instantiate(explosion,transform.position,transform.rotation);
+		}
 
 		// Show player explosion if the player is detected
 		// End game when player is destroyed
-		if(other.tag == "Player")
+		if(other.CompareTag("Player"))
 		{
 			Instantiate(playerExplosion,other.transform.position,other.transform.rotation);
 
